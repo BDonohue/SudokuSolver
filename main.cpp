@@ -6,7 +6,7 @@ using namespace std;
 main(){
 	SudokuBoard board;
 	board.clearBoard();
-	board.printBoard();
 	board.setBoard();
 	board.printBoard();
+	board.setPrediction();
 }

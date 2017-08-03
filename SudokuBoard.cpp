@@ -36,6 +36,35 @@ void SudokuBoard::printBoard(){
 	cout << " ----------------- " << endl;
 }
 
+void SudokuBoard::setPrediction(){
+	for(int i = 0; i < 9; i++){
+		for(int j = 0; j < 9; j++){
+			//If a board space already has a number, no point in checking for it
+			if(board[i][j] == 0){
+				boardPrediction[i][j][0] = 9876543210;
+				//Check Rows
+				/*
+				for(int k = 0; k < 9; k++){
+					boardPrediction[i][j][0] -= board[i][k] * (10 ^ (board[i][k]));
+				}
+				//Check Columns
+				for(int k = 0; k < 9; k++){
+					boardPrediction[i][j][0] -= board[k][j] * (10 ^ (board[k][j]));
+				}
+				//Check Boxes
+				for(int k = 0; k < 9; k++){
+					boardPrediction[i][j][0] -= board[i+k%3][j+((k/3)*9)] * (10 ^ (board[i+k%3][j+((k/3)*9)]));
+				}
+				*/
+			} else {
+				boardPrediction[i][j][0] = 0;
+			}
+			cout << boardPrediction[i][j][0] << " ";
+		}
+		cout << endl;
+	}
+}
+
 void SudokuBoard::setBoard(){
 	board[0][0] = 5;
 	board[0][1] = 3;
