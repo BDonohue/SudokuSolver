@@ -1,4 +1,6 @@
 #include "SudokuBoard.h"
+#include <stdio.h>
+#include <math.h>
 #include <iostream>
 using namespace std;
 
@@ -41,27 +43,49 @@ void SudokuBoard::setPrediction(){
 		for(int j = 0; j < 9; j++){
 			//If a board space already has a number, no point in checking for it
 			if(board[i][j] == 0){
-				boardPrediction[i][j][0] = 9876543210;
+				//Make everything possible
+				for(int k = 0; k < 10; k++){
+					boardPrediction[i][j][k] = 1;
+				}
 				//Check Rows
-				/*
 				for(int k = 0; k < 9; k++){
-					boardPrediction[i][j][0] -= board[i][k] * (10 ^ (board[i][k]));
+					if(board[i][k]){
+						boardPrediction[i][j][board[i][k]] = 0;
+					}
 				}
 				//Check Columns
 				for(int k = 0; k < 9; k++){
-					boardPrediction[i][j][0] -= board[k][j] * (10 ^ (board[k][j]));
+					if(board[k][j]){
+						boardPrediction[i][j][board[k][j]] = 0;	
+					}
 				}
 				//Check Boxes
+				/*
 				for(int k = 0; k < 9; k++){
-					boardPrediction[i][j][0] -= board[i+k%3][j+((k/3)*9)] * (10 ^ (board[i+k%3][j+((k/3)*9)]));
+					if(board[i+k%3][j+((k/3)*9)]){
+						boardPrediction[i][j][board[i+k%3][j+((k/3)*9)]] = 0;
+					}	
 				}
 				*/
 			} else {
 				boardPrediction[i][j][0] = 0;
 			}
-			cout << boardPrediction[i][j][0] << " ";
 		}
-		cout << endl;
+	}
+
+	for(int k = 0; k < 10; k++){
+		cout << k << endl << endl;
+		for(int i = 0; i < 9; i++){
+			for(int j = 0; j < 9; j++){
+				if(board[i][j] == 0){
+					cout << boardPrediction[i][j][k] << " ";
+				} else {
+					cout << "  ";
+				}
+			}
+			cout << endl;
+		}
+		cout << endl << endl << endl;
 	}
 }
 
