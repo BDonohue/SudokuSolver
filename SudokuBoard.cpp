@@ -39,6 +39,7 @@ void SudokuBoard::printBoard(){
 }
 
 void SudokuBoard::setPrediction(){
+	int l, m;
 	for(int i = 0; i < 9; i++){
 		for(int j = 0; j < 9; j++){
 			//If a board space already has a number, no point in checking for it
@@ -60,31 +61,40 @@ void SudokuBoard::setPrediction(){
 					}
 				}
 				//Check Boxes
-				/*
+				l = (i / 3) * 3;
+				m = (j / 3) * 3;
 				for(int k = 0; k < 9; k++){
-					if(board[i+k%3][j+((k/3)*9)]){
-						boardPrediction[i][j][board[i+k%3][j+((k/3)*9)]] = 0;
+					if(board[l+k/3][m+k%3]){
+						boardPrediction[i][j][board[l+k/3][m+k%3]] = 0;
 					}	
 				}
-				*/
 			} else {
 				boardPrediction[i][j][0] = 0;
 			}
 		}
 	}
 
-	for(int k = 0; k < 10; k++){
+	for(int k = 1; k < 10; k++){
 		cout << k << endl << endl;
 		for(int i = 0; i < 9; i++){
+			if(i % 3 == 0){
+				cout << " ----------------- " << endl;
+			}
 			for(int j = 0; j < 9; j++){
-				if(board[i][j] == 0){
-					cout << boardPrediction[i][j][k] << " ";
+				if(j % 3 == 0){
+					cout << "|";
 				} else {
-					cout << "  ";
+					cout << " ";
+				}
+				if(board[i][j] == 0){
+					cout << boardPrediction[i][j][k];
+				} else {
+					cout << " ";
 				}
 			}
-			cout << endl;
+			cout << "|" << endl;
 		}
+		cout << " ----------------- " << endl;
 		cout << endl << endl << endl;
 	}
 }
