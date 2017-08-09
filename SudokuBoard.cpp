@@ -44,8 +44,9 @@ void SudokuBoard::setPrediction(){
 		for(int j = 0; j < 9; j++){
 			//If a board space already has a number, no point in checking for it
 			if(board[i][j] == 0){
+				boardPrediction[i][j][0] = 9;
 				//Make everything possible
-				for(int k = 0; k < 10; k++){
+				for(int k = 1; k < 10; k++){
 					boardPrediction[i][j][k] = 1;
 				}
 				//Check Rows
@@ -74,6 +75,19 @@ void SudokuBoard::setPrediction(){
 		}
 	}
 
+	for(int i = 0; i < 9; i++){
+		for(int j = 0; j < 9; j++){
+			if(boardPrediction[i][j][0]){
+				for(int k = 1; k < 10; k++){
+					if(!boardPrediction[i][j][k]){
+						boardPrediction[i][j][0]--;
+					}
+				}
+			}
+		}
+	}
+
+	/*
 	for(int k = 1; k < 10; k++){
 		cout << k << endl << endl;
 		for(int i = 0; i < 9; i++){
@@ -96,6 +110,40 @@ void SudokuBoard::setPrediction(){
 		}
 		cout << " ----------------- " << endl;
 		cout << endl << endl << endl;
+	}
+	*/
+}
+
+void SudokuBoard::usePrediction(){
+	//Check for slots that can only have one piece
+	int numbersPossible;
+	for(int i = 0; i < 9; i++){
+		for(int j = 0; j < 9; j++){
+			if(board[i][j] == 0){
+				if(boardPrediction[i][j][0] == 1){
+					cout << i << " " << j << endl;
+					//REPLACE NUMBER
+					//REDO PIECES
+				}
+			}
+		}
+	}
+	
+	for(int k = 1; k < 10; k++){
+		//Check Columns
+		for(int i = 0; i < 9; i++){
+			for(int j = 0; j < 9; j++){
+				if(boardPrediction[i][10][k] == 1){
+					//Reduce It
+				}
+				if(boardPrediction[10][j][k] == 1){
+					//Reduce it
+					
+				}
+			}
+		}
+		//Check Rows
+		//Check Tables
 	}
 }
 
