@@ -53,22 +53,18 @@ void SudokuBoard::setPrediction(){
 				for(int k = 0; k < 9; k++){
 					//Eliminate Predictions in Row
 					if(checkNumber(boardPrediction[i][k],board[i][j])){
-						//cout << i << " " << j << "      " << i << " " << k << "      " << boardPrediction[i][k] << " " << pow(2,board[i][j] - 1) << " ";
 						boardPrediction[i][k] -= pow(2,board[i][j] - 1);
-						//cout << boardPrediction[i][k] << endl;
 					} 
 					//Eliminate Predictions in Column
 					if(checkNumber(boardPrediction[k][j],board[i][j])){
-						//cout << i << " " << j << "      " << k << " " << j << "      " << boardPrediction[k][j] << " " << pow(2,board[i][j] - 1) << " ";
 						boardPrediction[k][j] -= pow(2,board[i][j] - 1);
-						//cout << boardPrediction[k][j] << endl;
 					} 
-					/*
+					
 					//Eliminate Predictions in Boxes
 					if(checkNumber(boardPrediction[l+k/3][m+k%3],board[i][j])){
-						boardPrediction[l+k/3][m+k%3] -= pow(2,board[i][j]);	
+						boardPrediction[l+k/3][m+k%3] -= pow(2,board[i][j] - 1);	
 					}
-					*/
+					
 				}
 			}
 		}
