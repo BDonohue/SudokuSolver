@@ -4,6 +4,8 @@
 #include <iostream>
 using namespace std;
 
+bool checkNumber(int value, int numToCheck);
+
 SudokuBoard::SudokuBoard(){
 	setBoard();
 }
@@ -12,6 +14,7 @@ void SudokuBoard::clearBoard(){
 	for(int i = 0; i < 9; i++){
 		for(int j = 0; j < 9; j++){
 			board[i][j] = 0;
+			boardPrediction[i][j] = 511;
 		}
 	}
 }
@@ -39,6 +42,50 @@ void SudokuBoard::printBoard(){
 }
 
 void SudokuBoard::setPrediction(){
+	//loop through numbers to get rid of predictions
+	int l, m;	//used to calculate which box to work in
+	for(int i = 0; i < 9; i++){
+		l = (i / 3) * 3;
+		for(int j = 0; j < 9; j++){
+			m = (j / 3) * 3;
+			//Only go through spaces with numbers on it
+			if(board[i][j]){
+				for(int k = 0; k < 9; k++){
+					//Eliminate Predictions in Row
+					if(checkNumber(boardPrediction[i][k],board[i][j])){
+						//cout << i << " " << j << "      " << i << " " << k << "      " << boardPrediction[i][k] << " " << pow(2,board[i][j] - 1) << " ";
+						boardPrediction[i][k] -= pow(2,board[i][j] - 1);
+						//cout << boardPrediction[i][k] << endl;
+					} 
+					//Eliminate Predictions in Column
+					if(checkNumber(boardPrediction[k][j],board[i][j])){
+						//cout << i << " " << j << "      " << k << " " << j << "      " << boardPrediction[k][j] << " " << pow(2,board[i][j] - 1) << " ";
+						boardPrediction[k][j] -= pow(2,board[i][j] - 1);
+						//cout << boardPrediction[k][j] << endl;
+					} 
+					/*
+					//Eliminate Predictions in Boxes
+					if(checkNumber(boardPrediction[l+k/3][m+k%3],board[i][j])){
+						boardPrediction[l+k/3][m+k%3] -= pow(2,board[i][j]);	
+					}
+					*/
+				}
+			}
+		}
+	}
+
+	for(int i = 0; i < 9; i++){
+		for(int j = 0; j < 9; j++){
+			if(!board[i][j]){
+				cout << boardPrediction[i][j] << "     ";
+			} else {
+				cout << "      ";
+			}
+
+		}
+		cout << endl;
+	}
+	/*
 	int l, m;
 	for(int i = 0; i < 9; i++){
 		for(int j = 0; j < 9; j++){
@@ -86,7 +133,7 @@ void SudokuBoard::setPrediction(){
 			}
 		}
 	}
-
+	*/
 	/*
 	for(int k = 1; k < 10; k++){
 		cout << k << endl << endl;
@@ -115,6 +162,7 @@ void SudokuBoard::setPrediction(){
 }
 
 void SudokuBoard::usePrediction(){
+	/*
 	//Check for slots that can only have one piece
 	int numbersPossible;
 	for(int i = 0; i < 9; i++){
@@ -138,13 +186,14 @@ void SudokuBoard::usePrediction(){
 				}
 				if(boardPrediction[10][j][k] == 1){
 					//Reduce it
-					
+
 				}
 			}
 		}
 		//Check Rows
 		//Check Tables
 	}
+	*/
 }
 
 void SudokuBoard::setBoard(){
@@ -192,4 +241,9 @@ void SudokuBoard::setBoard(){
 	board[8][3] = 5;
 	board[8][5] = 8;
 	board[8][7] = 6;
+}
+
+
+bool checkNumber(int value, int numToCheck){
+	return (value / ((int)(pow(2,numToCheck - 1)))) % 2;
 }

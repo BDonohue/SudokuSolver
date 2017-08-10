@@ -7,8 +7,9 @@ class SudokuBoard{
 		void setPrediction();			//set up Predictions
 		void usePrediction();			//Any predictions that have only 1 number can go
 	private:
-		long board[9][9];				//official board
-		long boardPrediction[10][10][10];	//numbers that could potentially be on there
+		int board[9][9];				//official board
+		int boardPrediction[9][9];		//numbers that could potentially be on there
+		//int rowColBoxTally[3][9];		//checks if 
 		//How to store board predictions:
 		//Number if possible is # * 10^#
 		//If a 3 is possible, then the number has a 3000 or 3 * 10 ^ 3
