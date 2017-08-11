@@ -69,95 +69,30 @@ void SudokuBoard::setPrediction(){
 			}
 		}
 	}
-
-	for(int i = 0; i < 9; i++){
-		for(int j = 0; j < 9; j++){
-			if(!board[i][j]){
-				cout << boardPrediction[i][j] << "     ";
-			} else {
-				cout << "      ";
-			}
-
-		}
-		cout << endl;
-	}
-	/*
-	int l, m;
-	for(int i = 0; i < 9; i++){
-		for(int j = 0; j < 9; j++){
-			//If a board space already has a number, no point in checking for it
-			if(board[i][j] == 0){
-				boardPrediction[i][j][0] = 9;
-				//Make everything possible
-				for(int k = 1; k < 10; k++){
-					boardPrediction[i][j][k] = 1;
-				}
-				//Check Rows
-				for(int k = 0; k < 9; k++){
-					if(board[i][k]){
-						boardPrediction[i][j][board[i][k]] = 0;
-					}
-				}
-				//Check Columns
-				for(int k = 0; k < 9; k++){
-					if(board[k][j]){
-						boardPrediction[i][j][board[k][j]] = 0;	
-					}
-				}
-				//Check Boxes
-				l = (i / 3) * 3;
-				m = (j / 3) * 3;
-				for(int k = 0; k < 9; k++){
-					if(board[l+k/3][m+k%3]){
-						boardPrediction[i][j][board[l+k/3][m+k%3]] = 0;
-					}	
-				}
-			} else {
-				boardPrediction[i][j][0] = 0;
-			}
-		}
-	}
-
-	for(int i = 0; i < 9; i++){
-		for(int j = 0; j < 9; j++){
-			if(boardPrediction[i][j][0]){
-				for(int k = 1; k < 10; k++){
-					if(!boardPrediction[i][j][k]){
-						boardPrediction[i][j][0]--;
-					}
-				}
-			}
-		}
-	}
-	*/
-	/*
-	for(int k = 1; k < 10; k++){
-		cout << k << endl << endl;
-		for(int i = 0; i < 9; i++){
-			if(i % 3 == 0){
-				cout << " ----------------- " << endl;
-			}
-			for(int j = 0; j < 9; j++){
-				if(j % 3 == 0){
-					cout << "|";
-				} else {
-					cout << " ";
-				}
-				if(board[i][j] == 0){
-					cout << boardPrediction[i][j][k];
-				} else {
-					cout << " ";
-				}
-			}
-			cout << "|" << endl;
-		}
-		cout << " ----------------- " << endl;
-		cout << endl << endl << endl;
-	}
-	*/
 }
 
 void SudokuBoard::usePrediction(){
+	for(int i = 0; i < 9; i++){
+		for(int j = 0; j < 9; j++){
+			if(!board[i][j]){
+				//CHECK SPACES THAT HAVE ONLY ONE NUMBER AVAILABLE
+				//If the number of ones is 2+, it will cancel out
+				//If number Prediction is 0, and countOfOnes is still positive, we have found the correct prediction
+				int countOfOnes = 2;
+				int onePosition = 0;
+				int numberPrediction = boardPrediction[i][j];
+				while(countOfOnes){
+					if(!numberPrediction){
+						cout << i << " " << j << " " << onePosition << endl;
+						break;
+					}
+					countOfOnes -= numberPrediction % 2;
+					numberPrediction = numberPrediction / 2;
+					onePosition++;
+				}
+			}
+		}
+	}
 	/*
 	//Check for slots that can only have one piece
 	int numbersPossible;

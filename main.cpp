@@ -11,5 +11,5 @@ main(){
 	board.setBoard();
 	board.printBoard();
 	board.setPrediction();
-
+	board.usePrediction();
 }
