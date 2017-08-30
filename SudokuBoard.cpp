@@ -83,7 +83,8 @@ void SudokuBoard::usePrediction(){
 				int numberPrediction = boardPrediction[i][j];
 				while(countOfOnes){
 					if(!numberPrediction){
-						cout << i << " " << j << " " << onePosition << endl;
+						//cout << i << " " << j << " " << onePosition << endl;
+						addNumber(i,j,onePosition);
 						break;
 					}
 					countOfOnes -= numberPrediction % 2;
@@ -93,6 +94,8 @@ void SudokuBoard::usePrediction(){
 			}
 		}
 	}
+
+
 	/*
 	//Check for slots that can only have one piece
 	int numbersPossible;
@@ -125,9 +128,37 @@ void SudokuBoard::usePrediction(){
 		//Check Tables
 	}
 	*/
+
+	if(numbersFilled != 81){
+		usePrediction();
+	}
+}
+
+void SudokuBoard::addNumber(int i, int j, int number){
+	board[i][j] = number;
+	numbersFilled++;
+	int l, m;	//used to calculate which box to work in
+	l = (i / 3) * 3;
+	m = (j / 3) * 3;
+	for(int k = 0; k < 9; k++){
+		//Eliminate Predictions in Row
+		if(checkNumber(boardPrediction[i][k],board[i][j])){
+			boardPrediction[i][k] -= pow(2,board[i][j] - 1);
+		} 
+		//Eliminate Predictions in Column
+		if(checkNumber(boardPrediction[k][j],board[i][j])){
+			boardPrediction[k][j] -= pow(2,board[i][j] - 1);
+		} 
+		//Eliminate Predictions in Boxes
+		if(checkNumber(boardPrediction[l+k/3][m+k%3],board[i][j])){
+			boardPrediction[l+k/3][m+k%3] -= pow(2,board[i][j] - 1);	
+		}
+	}
 }
 
 void SudokuBoard::setBoard(){
+	numbersFilled = 36;
+
 	board[0][0] = 5;
 	board[0][1] = 3;
 	board[0][3] = 6;

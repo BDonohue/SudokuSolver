@@ -12,4 +12,5 @@ main(){
 	board.printBoard();
 	board.setPrediction();
 	board.usePrediction();
+	board.printBoard();
 }
